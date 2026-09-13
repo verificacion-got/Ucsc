@@ -52,17 +52,18 @@
         .logos-container {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 30px;
         }
 
-        /* Tamaños específicos para cada logo actualizados */
+        /* Tamaños específicos para cada logo */
         .logo-principal {
-            height: 120px; /* Logo logop.jpeg ahora es el más grande */
+            height: 120px; 
             object-fit: contain;
         }
 
         .logo-secundario {
-            height: 65px; /* Logo logouc.jpg ahora es más pequeño */
+            height: 95px; /* Se hizo más largo/grande como solicitaste */
+            width: auto;
             object-fit: contain;
         }
 
@@ -220,7 +221,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* Margen aumentado al quitar el código */
             width: 100%;
             justify-content: center;
             box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
@@ -231,22 +232,7 @@
             font-size: 16px;
         }
 
-        .hash-code {
-            font-family: monospace;
-            background: white;
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            font-size: 14px;
-            word-break: break-all;
-            text-align: center;
-            margin-bottom: 30px;
-            border-radius: 4px;
-            width: 100%;
-            color: var(--ucsc-dark);
-            font-weight: bold;
-        }
-
-        /* reCAPTCHA Mockup */
+        /* reCAPTCHA Mockup con animaciones de carga */
         .recaptcha-container {
             background: #f9f9f9;
             border: 1px solid #d3d3d3;
@@ -259,6 +245,7 @@
             box-shadow: 0 0 4px rgba(0,0,0,0.05);
             margin-bottom: 20px;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
         .recaptcha-checkbox {
@@ -271,12 +258,39 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
+            position: relative;
         }
         
+        .recaptcha-checkbox.checked {
+            border-color: #c1c1c1;
+        }
+
         .recaptcha-checkbox.checked::after {
             content: '✔';
             color: #10b981;
             font-size: 20px;
+        }
+
+        /* Spinner de carga */
+        .recaptcha-checkbox.loading {
+            border-color: transparent !important;
+            background: transparent !important;
+        }
+
+        .recaptcha-checkbox.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4285F4; /* Azul de Google */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .recaptcha-text {
@@ -316,7 +330,7 @@
             gap: 10px;
             transition: background-color 0.2s ease, transform 0.1s ease;
             box-shadow: 0 4px 6px rgba(200, 16, 46, 0.2);
-            animation: fadeIn 0.4s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         @keyframes fadeIn {
@@ -363,9 +377,9 @@
 
     <header class="header">
         <div class="logos-container">
-            <!-- Logo Principal (Ahora es el más grande) -->
+            <!-- Logo Principal -->
             <img src="logop.jpeg" alt="Logo UCSC Principal" class="logo-principal">
-            <!-- Logo Secundario (Ahora es el más pequeño) -->
+            <!-- Logo Secundario (Ahora es más largo) -->
             <img src="logouc.jpg" alt="Logo UC Secundario" class="logo-secundario">
         </div>
         
@@ -433,17 +447,12 @@
             <div class="verification-panel">
                 <div class="status-badge">Documento Válido y Vigente</div>
                 
-                <span style="font-size: 12px; color: var(--text-light); margin-bottom: 5px; font-weight: bold; text-align: center;">CÓDIGO DE VERIFICACIÓN ÚNICO</span>
-                <div class="hash-code">
-                    hGOqnYw4pOuXir05fL5aFkk
-                </div>
-
                 <p style="font-size: 11px; color: var(--text-light); text-align: center; margin-bottom: 25px;">
                     El presente certificado ha sido generado mediante procesos informáticos seguros y se encuentra validado con firma electrónica avanzada.
                 </p>
 
-                <!-- reCAPTCHA Simulado con Javascript -->
-                <div class="recaptcha-container" onclick="validarCaptcha()">
+                <!-- reCAPTCHA Simulado con Javascript y Animación -->
+                <div id="recaptcha-wrapper" class="recaptcha-container" onclick="validarCaptcha()">
                     <div id="recaptcha-box" class="recaptcha-checkbox"></div>
                     <div class="recaptcha-text">No soy un robot</div>
                     <div class="recaptcha-logo">
@@ -472,21 +481,33 @@
         </p>
     </footer>
 
-    <!-- Script para la funcionalidad del reCAPTCHA y Botón -->
+    <!-- Script para el efecto de carga del reCAPTCHA y mostrar Botón -->
     <script>
         function validarCaptcha() {
             var box = document.getElementById("recaptcha-box");
             var btn = document.getElementById("download-btn");
+            var wrapper = document.getElementById("recaptcha-wrapper");
             
-            // Si no está checkeado, lo marcamos y mostramos el botón
-            if (!box.classList.contains("checked")) {
-                box.classList.add("checked");
-                btn.style.display = "flex"; // Se usa flex para mantener el ícono alineado con el texto
-            } else {
-                // Opcional: si el usuario vuelve a apretar, lo desmarcamos y ocultamos el botón
-                box.classList.remove("checked");
-                btn.style.display = "none";
+            // Si ya está verificado o cargando, no hacer nada
+            if (box.classList.contains("checked") || box.classList.contains("loading")) {
+                return;
             }
+            
+            // 1. Agregar clase de carga (spinner azul)
+            box.classList.add("loading");
+            wrapper.style.cursor = "default"; // Evitar más clics
+            
+            // 2. Simular un tiempo de carga (1.5 segundos)
+            setTimeout(function() {
+                // Quitar la animación de carga
+                box.classList.remove("loading");
+                
+                // Agregar el ticket verde de completado
+                box.classList.add("checked");
+                
+                // Mostrar el botón de descargar con animación
+                btn.style.display = "flex";
+            }, 1500); 
         }
     </script>
 </body>
