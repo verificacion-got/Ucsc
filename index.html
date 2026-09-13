@@ -28,7 +28,7 @@
             line-height: 1.6;
         }
 
-        /* Top Header */
+        /* Top Bar */
         .top-bar {
             background-color: var(--ucsc-dark);
             color: white;
@@ -38,6 +38,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* Header & Logos */
         .header {
             background-color: white;
             padding: 20px 40px;
@@ -48,8 +49,15 @@
             border-bottom: 3px solid var(--ucsc-red);
         }
 
-        .header img {
+        .logos-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logos-container img {
             height: 70px;
+            object-fit: contain;
         }
 
         .header-title {
@@ -169,12 +177,6 @@
         .signature {
             flex: 1;
             text-align: center;
-        }
-
-        .signature img {
-            height: 60px; /* Placeholder for signature */
-            display: block;
-            margin: 0 auto;
         }
 
         .signature-line {
@@ -332,6 +334,7 @@
             .data-grid { grid-template-columns: 1fr; }
             .header { flex-direction: column; gap: 15px; text-align: center; }
             .header-title { text-align: center; }
+            .logos-container { justify-content: center; flex-wrap: wrap; }
         }
     </style>
 </head>
@@ -342,7 +345,13 @@
     </div>
 
     <header class="header">
-        <img src="19948.jpg" alt="Logo UCSC">
+        <div class="logos-container">
+            <!-- Logo Original -->
+            <img src="19948.jpg" alt="Logo UCSC Principal">
+            <!-- Nuevo Logo Agregado -->
+            <img src="logouc.jpg" alt="Logo UC Secundario">
+        </div>
+        
         <div class="header-title">
             <h1>Sistema de Verificación de Títulos</h1>
             <p>Validación Electrónica de Documentos Oficiales</p>
@@ -364,7 +373,7 @@
                     
                     <div class="data-group">
                         <span class="data-label">R.U.T.</span>
-                        <div class="data-value">12.345.678-9</div> <!-- Reemplazar con Rut real -->
+                        <div class="data-value">12.345.678-9</div>
                     </div>
 
                     <div class="data-group">
@@ -396,7 +405,6 @@
                 <div class="stamp-container">
                     <div class="seal">Sello Institucional UCSC</div>
                     <div class="signature">
-                        <!-- Espacio donde iría la imagen de la firma -->
                         <div style="height:40px; font-family: 'Brush Script MT', cursive; font-size: 24px; color: #000;">Lorena Ruiz G.</div>
                         <div class="signature-line">LORENA RUIZ GURIDI</div>
                         <div class="signature-role">Secretaria General UCSC</div>
@@ -419,12 +427,11 @@
                     El presente certificado ha sido generado mediante procesos informáticos seguros y se encuentra validado con firma electrónica avanzada.
                 </p>
 
-                <!-- reCAPTCHA Simulado para diseño web -->
+                <!-- reCAPTCHA Simulado -->
                 <div class="recaptcha-container">
                     <div class="recaptcha-checkbox checked" onclick="this.classList.toggle('checked')"></div>
                     <div class="recaptcha-text">No soy un robot</div>
                     <div class="recaptcha-logo">
-                        <!-- Icono SVG genérico de reCaptcha -->
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="#4285F4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
                         <span>reCAPTCHA</span>
                     </div>
