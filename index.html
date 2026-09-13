@@ -52,11 +52,17 @@
         .logos-container {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
-        .logos-container img {
-            height: 70px;
+        /* Tamaños específicos para cada logo */
+        .logo-principal {
+            height: 75px;
+            object-fit: contain;
+        }
+
+        .logo-secundario {
+            height: 120px; /* Tamaño más grande para logouc.jpg */
             object-fit: contain;
         }
 
@@ -201,6 +207,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         .status-badge {
@@ -224,43 +231,19 @@
             font-size: 16px;
         }
 
-        .qr-placeholder {
-            width: 160px;
-            height: 160px;
-            background-color: white;
-            border: 10px solid white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            background-image: linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), 
-                              linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            margin-bottom: 25px;
-            position: relative;
-        }
-        
-        .qr-placeholder::after {
-            content: 'QR';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 10px;
-            font-weight: bold;
-        }
-
         .hash-code {
             font-family: monospace;
             background: white;
             border: 1px solid var(--border-color);
-            padding: 10px;
-            font-size: 12px;
+            padding: 12px;
+            font-size: 14px;
             word-break: break-all;
             text-align: center;
             margin-bottom: 30px;
             border-radius: 4px;
             width: 100%;
-            color: var(--text-light);
+            color: var(--ucsc-dark);
+            font-weight: bold;
         }
 
         /* reCAPTCHA Mockup */
@@ -274,7 +257,7 @@
             justify-content: space-between;
             width: 100%;
             box-shadow: 0 0 4px rgba(0,0,0,0.05);
-            margin-top: auto;
+            margin-bottom: 20px;
         }
 
         .recaptcha-checkbox {
@@ -310,9 +293,36 @@
             color: #999;
         }
 
-        .recaptcha-logo img {
-            width: 24px;
+        .recaptcha-logo svg {
             opacity: 0.7;
+        }
+
+        /* Download Button */
+        .download-btn {
+            background-color: var(--ucsc-red);
+            color: white;
+            text-decoration: none;
+            border: none;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(200, 16, 46, 0.2);
+        }
+
+        .download-btn:hover {
+            background-color: #a30c24;
+        }
+
+        .download-btn:active {
+            transform: translateY(2px);
         }
 
         /* Footer */
@@ -346,10 +356,10 @@
 
     <header class="header">
         <div class="logos-container">
-            <!-- Logo Original -->
-            <img src="19948.jpg" alt="Logo UCSC Principal">
-            <!-- Nuevo Logo Agregado -->
-            <img src="logouc.jpg" alt="Logo UC Secundario">
+            <!-- Nuevo Logo Principal -->
+            <img src="logop.jpeg" alt="Logo UCSC Principal" class="logo-principal">
+            <!-- Logo Secundario (Más grande) -->
+            <img src="logouc.jpg" alt="Logo UC Secundario" class="logo-secundario">
         </div>
         
         <div class="header-title">
@@ -416,14 +426,12 @@
             <div class="verification-panel">
                 <div class="status-badge">Documento Válido y Vigente</div>
                 
-                <div class="qr-placeholder"></div>
-                
-                <span style="font-size: 12px; color: var(--text-light); margin-bottom: 5px; font-weight: bold;">CÓDIGO DE VERIFICACIÓN ÚNICO</span>
+                <span style="font-size: 12px; color: var(--text-light); margin-bottom: 5px; font-weight: bold; text-align: center;">CÓDIGO DE VERIFICACIÓN ÚNICO</span>
                 <div class="hash-code">
                     hGOqnYw4pOuXir05fL5aFkk
                 </div>
 
-                <p style="font-size: 11px; color: var(--text-light); text-align: center; margin-bottom: 30px;">
+                <p style="font-size: 11px; color: var(--text-light); text-align: center; margin-bottom: 25px;">
                     El presente certificado ha sido generado mediante procesos informáticos seguros y se encuentra validado con firma electrónica avanzada.
                 </p>
 
@@ -436,6 +444,14 @@
                         <span>reCAPTCHA</span>
                     </div>
                 </div>
+
+                <!-- Botón de Descarga -->
+                <a href="#" class="download-btn" onclick="alert('Iniciando descarga segura del certificado en formato PDF...'); return false;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                    Descargar Documento Original
+                </a>
 
             </div>
         </div>
