@@ -55,14 +55,14 @@
             gap: 25px;
         }
 
-        /* Tamaños específicos para cada logo */
+        /* Tamaños específicos para cada logo actualizados */
         .logo-principal {
-            height: 75px;
+            height: 120px; /* Logo logop.jpeg ahora es el más grande */
             object-fit: contain;
         }
 
         .logo-secundario {
-            height: 120px; /* Tamaño más grande para logouc.jpg */
+            height: 65px; /* Logo logouc.jpg ahora es más pequeño */
             object-fit: contain;
         }
 
@@ -258,6 +258,7 @@
             width: 100%;
             box-shadow: 0 0 4px rgba(0,0,0,0.05);
             margin-bottom: 20px;
+            cursor: pointer;
         }
 
         .recaptcha-checkbox {
@@ -269,7 +270,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            transition: all 0.2s ease;
         }
         
         .recaptcha-checkbox.checked::after {
@@ -299,6 +300,7 @@
 
         /* Download Button */
         .download-btn {
+            display: none; /* Oculto por defecto */
             background-color: var(--ucsc-red);
             color: white;
             text-decoration: none;
@@ -309,12 +311,17 @@
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             transition: background-color 0.2s ease, transform 0.1s ease;
             box-shadow: 0 4px 6px rgba(200, 16, 46, 0.2);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .download-btn:hover {
@@ -356,9 +363,9 @@
 
     <header class="header">
         <div class="logos-container">
-            <!-- Nuevo Logo Principal -->
+            <!-- Logo Principal (Ahora es el más grande) -->
             <img src="logop.jpeg" alt="Logo UCSC Principal" class="logo-principal">
-            <!-- Logo Secundario (Más grande) -->
+            <!-- Logo Secundario (Ahora es el más pequeño) -->
             <img src="logouc.jpg" alt="Logo UC Secundario" class="logo-secundario">
         </div>
         
@@ -435,9 +442,9 @@
                     El presente certificado ha sido generado mediante procesos informáticos seguros y se encuentra validado con firma electrónica avanzada.
                 </p>
 
-                <!-- reCAPTCHA Simulado -->
-                <div class="recaptcha-container">
-                    <div class="recaptcha-checkbox checked" onclick="this.classList.toggle('checked')"></div>
+                <!-- reCAPTCHA Simulado con Javascript -->
+                <div class="recaptcha-container" onclick="validarCaptcha()">
+                    <div id="recaptcha-box" class="recaptcha-checkbox"></div>
                     <div class="recaptcha-text">No soy un robot</div>
                     <div class="recaptcha-logo">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="#4285F4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
@@ -445,8 +452,8 @@
                     </div>
                 </div>
 
-                <!-- Botón de Descarga -->
-                <a href="#" class="download-btn" onclick="alert('Iniciando descarga segura del certificado en formato PDF...'); return false;">
+                <!-- Botón de Descarga Oculto por Defecto -->
+                <a href="#" id="download-btn" class="download-btn" onclick="alert('Iniciando descarga segura del certificado en formato PDF...'); return false;">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                         <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
                     </svg>
@@ -465,5 +472,22 @@
         </p>
     </footer>
 
+    <!-- Script para la funcionalidad del reCAPTCHA y Botón -->
+    <script>
+        function validarCaptcha() {
+            var box = document.getElementById("recaptcha-box");
+            var btn = document.getElementById("download-btn");
+            
+            // Si no está checkeado, lo marcamos y mostramos el botón
+            if (!box.classList.contains("checked")) {
+                box.classList.add("checked");
+                btn.style.display = "flex"; // Se usa flex para mantener el ícono alineado con el texto
+            } else {
+                // Opcional: si el usuario vuelve a apretar, lo desmarcamos y ocultamos el botón
+                box.classList.remove("checked");
+                btn.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
